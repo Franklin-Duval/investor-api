@@ -7,11 +7,19 @@ routers = routers.DefaultRouter()
 routers.register(r'utilisateur', views.UtilisateurViewSet)
 routers.register(r'administeur', views.AdministrateurViewSet)
 routers.register(r'investisseur', views.InvestisseurViewSet)
-routers.register(r'porteur-porteur', views.Porteur_ProjetViewSet)
+routers.register(r'porteur-projet', views.Porteur_ProjetViewSet)
 routers.register(r'projet', views.ProjetViewSet)
 routers.register(r'technologie', views.TechnologieViewSet)
 routers.register(r'investir', views.InvestirViewSet)
 
 urlpatterns = [
     path('', include(routers.urls)),
+    path('login/', views.login),
+    path('create-project/', views.create_project),
+    path('all-admin-project/', views.all_admin_project),
+    path('all-investor-project/', views.all_investor_project),
+    path('validate-project/<str:id>/', views.valider_project),
+    path('rejeter-project/<str:id>/', views.rejeter_project),
+    path('investir-project/', views.investir_project),
+    path('get-project/<str:id>/', views.get_project),
 ]

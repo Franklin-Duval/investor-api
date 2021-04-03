@@ -93,7 +93,6 @@ class ProjetSerializer(serializers.HyperlinkedModelSerializer):
             'image',
             'document',
             'validation',
-            'supprime',
             'statut',
         ]
 

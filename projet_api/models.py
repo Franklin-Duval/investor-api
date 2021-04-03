@@ -39,11 +39,15 @@ class Technologie(models.Model):
     nom = models.CharField(max_length=100, null=False)
     description = models.TextField()
 
+    def __str__(self):
+        return self.nom
 
 class Projet(models.Model):
     STATUT = (
+        ('En attente de validation', 'En attente de validation'),
         ('En attente de financement', 'En attente de financement'),
         ('Financé', 'Financé'),
+        ('Rejété', 'Rejété')
     )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -57,7 +61,6 @@ class Projet(models.Model):
     image = models.ImageField(default="default.jpg", upload_to="images/")
     document = models.FileField(null=False, upload_to='document/')
     validation = models.BooleanField(default=False)
-    supprime = models.BooleanField(default=False)
     statut = models.CharField(max_length=30, choices=STATUT)
 
     def __str__(self):
