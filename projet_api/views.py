@@ -76,6 +76,33 @@ class ProjetViewSet(viewsets.ModelViewSet):
     queryset = Projet.objects.all()
     serializer_class = ProjetSerializer
 
+    def create(self, request, *args, **kwargs):
+        
+        try:
+            print(type(request.data["image"]), "\n\n")
+            print(type(request.data["document"]), "\n")
+            serializer = ProjetSerializer(data=request.data, context={'request': request})
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            """ data = serializer.data[0]
+            data.pop("date_inscription") """
+            
+            result = {
+                "success": True,
+                "message": "Projet crée avec succès.",
+                "data": serializer.data
+            }
+            return Response(result, status=status.HTTP_201_CREATED)
+        except:
+            result = {
+                "success": False,
+                "message": "Porteur de projet not created",
+                "data": {}
+            }
+            return Response(result, status=status.HTTP_200_OK)
+
+
 class InvestirViewSet(viewsets.ModelViewSet):
     queryset = Investir.objects.all()
     serializer_class = InvestirSerializer
@@ -126,6 +153,7 @@ def create_project(request):
     technologie = Technologie.objects.get(id = projet["technologie"])
     porteur = Porteur_Projet.objects.get(id = projet["porteur"])
     try:
+        
         project = Projet.objects.create(
             nom = projet["nom"],
             description = projet["description"],
@@ -135,10 +163,10 @@ def create_project(request):
             duree = projet["duree"],
             image = projet["image"],
             document = projet["document"],
-            statut = projet["statut"],
+            statut = 'En attente de validation'
         )
 
-        serializer = ProjetSerializer(project, context={"context": request})
+        serializer = ProjetSerializer(project, context={"request": request})
         
         result = {
             "success": True,
