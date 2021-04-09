@@ -71,3 +71,24 @@ class Investir(models.Model):
     investisseur = models.ForeignKey(Investisseur, on_delete=models.CASCADE)
     projet = models.ForeignKey(Projet, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
+
+
+class Tache(models.Model):
+    STATUT = (
+        ('En attente', 'En attente'),
+        ('En cours', 'En cours'),
+        ('Terminé', 'Terminé'),
+    )
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    nom = models.CharField(max_length=50, null=False)
+    projet = models.ForeignKey(Projet, on_delete=models.CASCADE)
+    duree = models.IntegerField(default=0)
+    debut = models.DateField(null=True)
+    fin = models.DateField(null=True)
+    image = models.ImageField(blank=True, upload_to="images/taches/")
+    statut = models.CharField(max_length=20, choices=STATUT, default='En attente')
+    avancement = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.nom

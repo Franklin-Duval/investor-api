@@ -106,3 +106,19 @@ class InvestirSerializer(serializers.HyperlinkedModelSerializer):
             'projet',
             'date',
         ]
+
+class TacheSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Tache
+        fields = [
+            'id',
+            'url',
+            'nom',
+            'projet',
+            'duree',
+            'debut',
+            'fin',
+            'image',
+            'statut',
+            'avancement',
+        ]

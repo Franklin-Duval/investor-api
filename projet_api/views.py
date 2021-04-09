@@ -72,6 +72,10 @@ class TechnologieViewSet(viewsets.ModelViewSet):
     queryset = Technologie.objects.all()
     serializer_class = TechnologieSerializer
 
+class TacheViewSet(viewsets.ModelViewSet):
+    queryset = Tache.objects.all()
+    serializer_class = TacheSerializer
+
 class ProjetViewSet(viewsets.ModelViewSet):
     queryset = Projet.objects.all()
     serializer_class = ProjetSerializer
@@ -401,6 +405,27 @@ def all_investor_project(request):
         }
 
         return Response(result, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def get_taches(request, id):
+    """
+        Permet de recuperer les tahces d'un projet
+    """
+
+    projet = Projet.objects.get(id=id)
+    taches = Tache.objects.filter(projet=projet)
+
+    serializer = TacheSerializer(taches, many=True, context={'request': request})
+    data = serializer.data
+    
+    result = {
+        "success": True,
+        "message": "Les taches ont été recupéré avec succès",
+        "data": data
+    }
+
+    return Response(result, status=status.HTTP_200_OK)
 
 
 def root(request):

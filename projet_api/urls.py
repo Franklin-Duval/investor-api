@@ -11,6 +11,7 @@ routers.register(r'porteur-projet', views.Porteur_ProjetViewSet)
 routers.register(r'projet', views.ProjetViewSet)
 routers.register(r'technologie', views.TechnologieViewSet)
 routers.register(r'investir', views.InvestirViewSet)
+routers.register(r'tache', views.TacheViewSet)
 
 urlpatterns = [
     path('', include(routers.urls)),
@@ -22,4 +23,5 @@ urlpatterns = [
     path('rejeter-project/<str:id>/', views.rejeter_project),
     path('investir-project/', views.investir_project),
     path('get-project/<str:id>/', views.get_project),
+    path('get-taches/<str:id>/', views.get_taches),
 ]
