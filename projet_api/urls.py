@@ -24,4 +24,5 @@ urlpatterns = [
     path('investir-project/', views.investir_project),
     path('get-project/<str:id>/', views.get_project),
     path('get-taches/<str:id>/', views.get_taches),
+    path('update-tache/', views.update_tache),
 ]

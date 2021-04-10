@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from datetime import datetime, timedelta
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -427,6 +428,57 @@ def get_taches(request, id):
 
     return Response(result, status=status.HTTP_200_OK)
 
+def change_undefined(string):
+    if string == 'undefined' or string == 'null':
+        return None
+    else:
+        return string
+
+
+@api_view(['POST'])
+def update_tache(request):
+    """
+        Permet de mettre a jour une tache
+    """
+
+    post_data = request.data
+    id = post_data["id"]
+    debut = change_undefined(post_data["debut"])
+    fin = change_undefined(post_data["fin"])
+    avance = post_data["avancement"]
+    statut = post_data["statut"]
+    image = change_undefined(post_data["image"])
+
+    tache = Tache.objects.get(id=id)
+    
+    #create date objects
+    if debut is not None:
+        split_date = str(debut).split('-')
+        debut = datetime(int(split_date[0]), int(split_date[1]), int(split_date[2])).date()
+        tache.debut = debut
+    
+    if fin is not None:
+        split_date = str(fin).split('-')
+        fin = datetime(int(split_date[0]), int(split_date[1]), int(split_date[2])).date()
+        tache.fin = fin
+
+    if image is not None:
+        tache.image = image
+    
+    tache.avancement = avance
+    tache.statut = statut
+    
+    tache.save()
+
+    serializer = TacheSerializer(tache, context={'request': request})
+
+    result = {
+        "success": True,
+        "message": "La tache a été mis à jour avec succès",
+        "data": serializer.data
+    }
+
+    return Response(result, status=status.HTTP_200_OK)
 
 def root(request):
     return redirect('api/')
