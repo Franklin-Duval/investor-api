@@ -166,7 +166,6 @@ def create_project(request):
             porteur = porteur,
             montant = projet["montant"],
             duree = projet["duree"],
-            image = projet["image"],
             document = projet["document"],
             statut = 'En attente de validation'
         )
