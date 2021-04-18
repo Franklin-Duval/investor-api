@@ -37,7 +37,7 @@ class Investisseur(Utilisateur):
 class Technologie(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nom = models.CharField(max_length=100, null=False)
-    description = models.TextField()
+    description = models.TextField(null=True)
 
     def __str__(self):
         return self.nom
